@@ -1,16 +1,21 @@
 import argparse
 import git
+import giturlparse
 
-def repo_initialization(repo_url):
-    repo = git.Repo.clone_from(repo_url, 'useful_bash_script')
+def repo_initialization(repo_url, repo_name):
+    g = giturlparse.parse(repo_url)
+    if not repo_name:
+        repo_name = g.name
 
-    for branch in repo.branches:
+    cloned_repo = git.Repo.clone_from(repo_url, repo_name)
+
+    for branch in cloned_repo.branches:
         print(branch)
 
-    return repo 
+    return cloned_repo 
 
 def create_branch(args):
-    repo = repo_initialization(args.remote_repo)
+    repo = repo_initialization(args.remote_repo, args.repo_name)
     repo.git.branch(args.dest_branch)
     repo.git.checkout(args.dest_branch)
     repo.remotes.origin.push(args.dest_branch)
@@ -23,6 +28,7 @@ def create_tag(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('remote_repo', help="remote repo to clone")
+    parser.add_argument('--repo_name', help="name for cloned remote repo")
     subparser = parser.add_subparsers(dest='task')
     create_branch_parser = subparser.add_parser('create_branch')
     create_tag_parser = subparser.add_parser('create_tag')
