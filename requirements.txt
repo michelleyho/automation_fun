@@ -1,2 +1,3 @@
 argparse
 GitPython
+git-url-parse
