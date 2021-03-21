@@ -22,11 +22,11 @@ def create_branch(args):
     repo.remotes.origin.push(args.dest_branch)
 
 def create_tag(args):
-    repo = repo_initialization(remote_repo, args.repo_name)
+    repo = repo_initialization(args.remote_repo, args.repo_name)
     new_tag = repo.create_tag(args.new_tag_name, message=args.tag_msg)
     repo.remotes.origin.push(new_tag)
 
-if __name__ == "__main__":
+def create_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('remote_repo', help='remote repo to clone')
     parser.add_argument('--repo_name', help='name for cloned remote repo')
@@ -42,6 +42,11 @@ if __name__ == "__main__":
     create_tag_parser.add_argument('new_tag_name', help='New tag name')
     create_tag_parser.set_defaults(func=create_tag)
     create_tag_parser.add_argument('--tag_msg', default='', help='Tag message')
-    
+
+    return parser
+
+if __name__ == "__main__":
+    parser = create_parser() 
     args = parser.parse_args() 
+    print(args.task)
     args.func(args)
