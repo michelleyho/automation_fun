@@ -4,6 +4,7 @@ import giturlparse
 
 def repo_initialization(repo_url, repo_name):
     g = giturlparse.parse(repo_url)
+
     if not repo_name:
         repo_name = g.name
 
@@ -27,19 +28,20 @@ def create_tag(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('remote_repo', help="remote repo to clone")
-    parser.add_argument('--repo_name', help="name for cloned remote repo")
+    parser.add_argument('remote_repo', help='remote repo to clone')
+    parser.add_argument('--repo_name', help='name for cloned remote repo')
+
     subparser = parser.add_subparsers(dest='task')
     create_branch_parser = subparser.add_parser('create_branch')
     create_tag_parser = subparser.add_parser('create_tag')
     
-    create_branch_parser.add_argument('dest_branch', help="New branch name")
+    create_branch_parser.add_argument('dest_branch', help='New branch name')
     create_branch_parser.set_defaults(func=create_branch)
-    create_branch_parser.add_argument('--src_branch', default='master', help="Original branch to branch from")
+    create_branch_parser.add_argument('--src_branch', default='master', help='Original branch to branch from')
 
-    create_tag_parser.add_argument('new_tag_name', help="New tag name")
+    create_tag_parser.add_argument('new_tag_name', help='New tag name')
     create_tag_parser.set_defaults(func=create_tag)
-    create_tag_parser.add_argument('--tag_msg', default='', help="Tag message")
+    create_tag_parser.add_argument('--tag_msg', default='', help='Tag message')
     
     args = parser.parse_args() 
     args.func(args)
