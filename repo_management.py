@@ -21,7 +21,7 @@ def create_branch(args):
     repo.remotes.origin.push(args.dest_branch)
 
 def create_tag(args):
-    repo = repo_initialization(remote_repo)
+    repo = repo_initialization(remote_repo, args.repo_name)
     new_tag = repo.create_tag(args.new_tag_name, message=args.tag_msg)
     repo.remotes.origin.push(new_tag)
 
