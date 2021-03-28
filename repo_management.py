@@ -2,11 +2,16 @@ import argparse
 import git
 import giturlparse
 
-def repo_initialization(repo_url, repo_name):
+def get_repo_name(repo_url, repo_name):
     g = giturlparse.parse(repo_url)
-
+    
     if not repo_name:
         repo_name = g.name
+
+    return repo_name 
+
+def repo_initialization(repo_url, repo_name):
+    get_repo_name(repo_url, repo_name)
 
     cloned_repo = git.Repo.clone_from(repo_url, repo_name)
 
