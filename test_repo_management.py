@@ -32,3 +32,13 @@ def test_parser_create_tag_optional():
     assert parsed.task == 'create_tag'
     assert parsed.new_tag_name == 'test_tag1' 
     assert parsed.tag_msg == 'pytest test tag'
+
+#@pytest.mark.skip(reason="mock function not working yet")
+def test_get_repo_name(mocker):
+    #mocker.patch.object('repo_management.giturlparse.parse.name',return_value='test_test')
+    mocker.patch.object('repo_management.get_repo_name.g.name',return_value='test_test')
+    expected = 'test_test'
+    
+    actual_repo_name = repo_management.repo_initialization('some_url','')
+    assert actual_repo_name == expected
+
